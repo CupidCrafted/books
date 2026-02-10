@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Book Gift</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Sacramento&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  font-family:'Playfair Display',serif;
+  background:#efe3cf url('https://i.imgur.com/fc6yR1D.png');
+  background-size:cover;
+  color:#3b2a1a;
+  overflow-x:hidden;
+}
+
+/* LANDING */
+#landing{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.landing-card{
+  background:rgba(255,248,235,0.9);
+  padding:40px 25px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,0.2);
+}
+#landing h1{
+  font-size:38px;
+  margin-bottom:25px;
+}
+#landing button{
+  padding:15px 30px;
+  font-size:18px;
+  border:none;
+  border-radius:8px;
+  background:#c67c4a;
+  color:white;
+  cursor:pointer;
+}
+
+/* LIBRARY SCRAPBOOK */
+#library{
+  display:none;
+  min-height:100vh;
+  position:relative;
+  padding:30px 10px;
+}
+.book{
+  position:absolute;
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);
+  cursor:pointer;
+  transition:transform .3s;
+}
+.book img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+.book:hover{
+  transform:scale(1.1) rotate(0deg);
+}
+
+/* Random placements */
+.b1{top:10%;left:10%;transform:rotate(-8deg);}
+.b2{top:25%;right:12%;transform:rotate(6deg);}
+.b3{top:45%;left:20%;transform:rotate(10deg);}
+.b4{top:60%;right:15%;transform:rotate(-6deg);}
+.b5{bottom:18%;left:12%;transform:rotate(8deg);}
+.b6{bottom:10%;right:18%;transform:rotate(-10deg);}
+
+/* STORYBOOK */
+#storybook{
+  display:none;
+  min-height:100vh;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+.book-page{
+  width:95%;
+  max-width:420px;
+  height:80vh;
+  background:#f6ead7;
+  border-radius:10px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3);
+  padding:25px 20px;
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  text-align:center;
+  animation:pageTurn .6s ease;
+}
+@keyframes pageTurn{
+  from{transform:rotateY(-15deg);opacity:0;}
+  to{transform:rotateY(0);opacity:1;}
+}
+.book-page img{
+  width:65%;
+  max-width:200px;
+  margin:auto;
+  border-radius:5px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.25);
+}
+.book-page p{
+  font-family:'Sacramento',cursive;
+  font-size:26px;
+  margin-top:20px;
+}
+.controls button{
+  padding:10px 15px;
+  margin:5px;
+  border:none;
+  border-radius:6px;
+  background:#c67c4a;
+  color:#fff;
+  cursor:pointer;
+}
+.page-number{
+  position:absolute;
+  bottom:10px;
+  right:15px;
+  font-size:12px;
+  opacity:.6;
+}
+
+/* FINAL */
+#final{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+}
+#final h2{font-size:34px;margin-bottom:15px;}
+#final p{font-family:'Sacramento',cursive;font-size:26px;}
+
+.watermark{
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  opacity:.5;
+  font-size:14px;
+}
+
+/* MOBILE SAFETY */
+@media(max-width:500px){
+  .book{width:90px;height:90px;}
+  #landing h1{font-size:30px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="landing-card">
+    <h1>Open your gift… your story awaits</h1>
+    <button onclick="startLibrary()">Open Gift</button>
+  </div>
+</div>
+
+<!-- LIBRARY -->
+<div id="library">
+  <div class="book b1" onclick="openBook(0)"><img src="https://i.postimg.cc/XNc93mm3/IMG-2376.jpg"></div>
+  <div class="book b2" onclick="openBook(1)"><img src="https://i.postimg.cc/QNkcswPn/IMG-2380.jpg"></div>
+  <div class="book b3" onclick="openBook(2)"><img src="https://i.postimg.cc/FFg0m88t/IMG-2378.jpg"></div>
+  <div class="book b4" onclick="openBook(3)"><img src="https://i.postimg.cc/VsBX1pT3/IMG-2379.jpg"></div>
+  <div class="book b5" onclick="openBook(4)"><img src="https://i.postimg.cc/jqQyKmmb/IMG-2375.jpg"></div>
+  <div class="book b6" onclick="openBook(5)"><img src="https://i.postimg.cc/wxcDHZZ8/IMG-2377.jpg"></div>
+</div>
+
+<!-- STORYBOOK -->
+<div id="storybook">
+  <div class="book-page">
+    <img id="book-cover">
+    <p id="book-quote"></p>
+    <div class="controls">
+      <button onclick="prevBook()">Previous</button>
+      <button onclick="nextBook()">Next</button>
+      <button onclick="backToLibrary()">Library</button>
+    </div>
+    <div class="page-number" id="pageNum"></div>
+  </div>
+</div>
+
+<!-- FINAL -->
+<div id="final">
+  <div>
+    <h2>Happy Birthday Chelsea!</h2>
+    <p>Hope your day is as magical as the worlds you love.</p>
+  </div>
+</div>
+
+<div class="watermark">🏹Cupidcrafted</div>
+
+<script>
+const books=[
+ {cover:"https://i.postimg.cc/XNc93mm3/IMG-2376.jpg",quote:"Some wings are forged in fire…"},
+ {cover:"https://i.postimg.cc/QNkcswPn/IMG-2380.jpg",quote:"Power belongs to those who seize it."},
+ {cover:"https://i.postimg.cc/FFg0m88t/IMG-2378.jpg",quote:"Every ending is a new beginning."},
+ {cover:"https://i.postimg.cc/VsBX1pT3/IMG-2379.jpg",quote:"Nothing is as it seems…"},
+ {cover:"https://i.postimg.cc/jqQyKmmb/IMG-2375.jpg",quote:"Love is never simple, but always worth it."},
+ {cover:"https://i.postimg.cc/wxcDHZZ8/IMG-2377.jpg",quote:"The darkest storms bring the brightest revelations."}
+];
+
+let current=0;
+
+function startLibrary(){
+  landing.style.display="none";
+  library.style.display="block";
+}
+
+function openBook(i){
+  current=i;
+  library.style.display="none";
+  storybook.style.display="flex";
+  showBook();
+}
+
+function showBook(){
+  bookCover.src=books[current].cover;
+  bookQuote.textContent=books[current].quote;
+  pageNum.textContent=`Page ${current+1} of ${books.length}`;
+}
+
+function nextBook(){
+  current++;
+  if(current>=books.length){
+    storybook.style.display="none";
+    final.style.display="flex";
+    return;
+  }
+  showBook();
+}
+
+function prevBook(){
+  current--;
+  if(current<0)current=0;
+  showBook();
+}
+
+function backToLibrary(){
+  storybook.style.display="none";
+  library.style.display="block";
+}
+</script>
+
+</body>
+</html>
