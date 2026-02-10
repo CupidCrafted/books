@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Book Gift</title>
+<style>
+  /* Basic reset */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Playfair Display', serif; background: #fdf3e7; color: #3e2e1c; overflow-x: hidden; }
+
+  /* Landing Page */
+  #landing {
+    width: 100vw; height: 100vh;
+    background: url('https://i.imgur.com/JzE1Zg0.png') center/cover no-repeat;
+    display: flex; justify-content: center; align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  #landing h1 {
+    font-size: 24px; margin-bottom: 20px;
+    text-shadow: 1px 1px 2px #fff;
+  }
+  #landing button {
+    padding: 15px 30px; font-size: 18px;
+    background: #d4a373; border: none; border-radius: 8px;
+    cursor: pointer; color: #fff;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  }
+  #landing button:hover { background: #c67c4a; }
+
+  /* Library Page */
+  #library {
+    display: none; flex-direction: column; align-items: center;
+    padding: 20px;
+  }
+  #library h2 { font-size: 22px; margin-bottom: 20px; text-align: center; }
+  .bookshelf {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;
+  }
+  .book {
+    width: 120px; text-align: center; cursor: pointer; transition: transform 0.3s;
+  }
+  .book img { width: 100%; border-radius: 5px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+  .book:hover { transform: scale(1.05); }
+
+  /* Storybook Pages */
+  #storybook {
+    display: none; flex-direction: column; align-items: center;
+    padding: 20px; min-height: 100vh;
+    background: url('https://i.imgur.com/fc6yR1D.png') center/cover no-repeat;
+  }
+  #storybook img { width: 60%; max-width: 200px; margin-bottom: 20px; border-radius: 5px; }
+  #storybook p { font-family: 'Sacramento', cursive; font-size: 20px; text-align: center; margin-bottom: 30px; }
+  #storybook button {
+    padding: 10px 20px; font-size: 16px; margin: 5px;
+    background: #d4a373; border: none; border-radius: 6px; cursor: pointer; color: #fff;
+  }
+  #storybook button:hover { background: #c67c4a; }
+
+  /* Final Page */
+  #final {
+    display: none; flex-direction: column; justify-content: center; align-items: center;
+    height: 100vh; background: url('https://i.imgur.com/fc6yR1D.png') center/cover no-repeat;
+    text-align: center; padding: 20px;
+  }
+  #final h2 { font-size: 24px; margin-bottom: 20px; }
+  #final p { font-family: 'Sacramento', cursive; font-size: 22px; }
+
+  /* Watermark */
+  .watermark {
+    position: fixed; bottom: 10px; right: 10px;
+    font-size: 14px; color: rgba(0,0,0,0.5); pointer-events: none;
+  }
+
+  /* Responsive */
+  @media(max-width: 500px){
+    .book { width: 40%; }
+    #storybook img { width: 80%; max-width: 180px; }
+    #landing h1 { font-size: 20px; }
+    #landing button { font-size: 16px; padding: 12px 24px; }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Sacramento&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Landing Page -->
+<div id="landing">
+  <h1>Open your gift… your story awaits</h1>
+  <button onclick="startLibrary()">Open Gift</button>
+</div>
+
+<!-- Library Page -->
+<div id="library">
+  <h2>Your Favorite Books</h2>
+  <div class="bookshelf">
+    <div class="book" onclick="openBook(0)">
+      <img src="https://via.placeholder.com/120x180?text=Fourth+Wing" alt="Fourth Wing">
+      <p>Fourth Wing</p>
+    </div>
+    <div class="book" onclick="openBook(1)">
+      <img src="https://via.placeholder.com/120x180?text=The+Red+Queen" alt="The Red Queen">
+      <p>The Red Queen</p>
+    </div>
+    <div class="book" onclick="openBook(2)">
+      <img src="https://via.placeholder.com/120x180?text=It+Ends+With+Us" alt="It Ends With Us">
+      <p>It Ends With Us</p>
+    </div>
+    <div class="book" onclick="openBook(3)">
+      <img src="https://via.placeholder.com/120x180?text=Mindfuck+Series" alt="Mindfuck Series">
+      <p>Mindfuck Series</p>
+    </div>
+    <div class="book" onclick="openBook(4)">
+      <img src="https://via.placeholder.com/120x180?text=The+Bride+by+Ali" alt="The Bride by Ali">
+      <p>The Bride by Ali</p>
+    </div>
+    <div class="book" onclick="openBook(5)">
+      <img src="https://via.placeholder.com/120x180?text=Onyx+Storm" alt="Onyx Storm">
+      <p>Onyx Storm</p>
+    </div>
+  </div>
+</div>
+
+<!-- Storybook Page -->
+<div id="storybook">
+  <img id="book-cover" src="" alt="Book Cover">
+  <p id="book-quote">Quote goes here...</p>
+  <div>
+    <button onclick="prevBook()">Previous</button>
+    <button onclick="nextBook()">Next</button>
+    <button onclick="backToLibrary()">Back to Library</button>
+  </div>
+</div>
+
+<!-- Final Birthday Page -->
+<div id="final">
+  <h2>Happy Birthday Chelsea!</h2>
+  <p>Hope your day is as magical as the worlds you love. 🥳</p>
+</div>
+
+<!-- Watermark -->
+<div class="watermark">🏹Cupidcrafted</div>
+
+<script>
+  const books = [
+    {title: "Fourth Wing", cover: "https://i.postimg.cc/XNc93mm3/IMG-2376.jpg", quote: "Some wings are forged in fire…"},
+    {title: "The Red Queen", cover: "https://i.postimg.cc/QNkcswPn/IMG-2380.jpg", quote: "Power belongs to those who seize it."},
+    {title: "It Ends With Us", cover: "https://i.postimg.cc/FFg0m88t/IMG-2378.jpg", quote: "Every ending is a new beginning."},
+    {title: "Mindfuck Series", cover: "https://i.postimg.cc/VsBX1pT3/IMG-2379.jpg", quote: "Nothing is as it seems…"},
+    {title: "The Bride", cover: "https://i.postimg.cc/jqQyKmmb/IMG-2375.jpg", quote: "Love is never simple, but always worth it."},
+    {title: "Onyx Storm", cover: "https://i.postimg.cc/wxcDHZZ8/IMG-2377.jpg", quote: "The darkest storms bring the brightest revelations."},
+  ];
+
+  let current = 0;
+
+  function startLibrary(){
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('library').style.display = 'flex';
+  }
+
+  function openBook(index){
+    current = index;
+    document.getElementById('library').style.display = 'none';
+    document.getElementById('storybook').style.display = 'flex';
+    showBook();
+  }
+
+  function showBook(){
+    if(current >= books.length){
+      document.getElementById('storybook').style.display = 'none';
+      document.getElementById('final').style.display = 'flex';
+      return;
+    }
+    if(current < 0) current = 0;
+    document.getElementById('book-cover').src = books[current].cover;
+    document.getElementById('book-quote').textContent = books[current].quote;
+  }
+
+  function nextBook(){
+    current++;
+    if(current >= books.length){
+      document.getElementById('storybook').style.display = 'none';
+      document.getElementById('final').style.display = 'flex';
+      return;
+    }
+    showBook();
+  }
+
+  function prevBook(){
+    current--;
+    if(current < 0) current = 0;
+    showBook();
+  }
+
+  function backToLibrary(){
+    document.getElementById('storybook').style.display = 'none';
+    document.getElementById('library').style.display = 'flex';
+  }
+</script>
+
+</body>
+</html>
